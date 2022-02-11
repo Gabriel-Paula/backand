@@ -21,5 +21,19 @@
 import Route from '@ioc:Adonis/Core/Route'
 
 Route.get('/', async () => {
-  return { hello: 'world' }
+  return { hello: 'world web 1' }
 })
+
+Route.post("/register", "AuthController.register")
+Route.post("/login", "AuthController.login")
+Route.get("/projetos", "ProjetosController.index")
+Route.get("/projetos/:id", "ProjetosController.show")
+Route.get("/faqs", "FaqsController.index")
+Route.get("/faqs/:id", "FaqsController.show")
+Route.get("/curtir", "ProjetoCurtirsController.index")
+Route.get("/curtir/:id", "ProjetoCurtirsController.show")
+Route.group(() => {
+  Route.resource("projetos", 'ProjetosController').apiOnly().except(['index', 'show'])
+  Route.resource("faqs", "FaqsController").apiOnly().except(["index", "show"])
+  Route.resource("curtir", "ProjetoCurtirsController").apiOnly().except(["index", "show"])
+}).middleware('auth')
